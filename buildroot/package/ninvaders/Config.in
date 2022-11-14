@@ -1,0 +1,12 @@
+config BR2_PACKAGE_NINVADERS
+	bool "ninvaders"
+	depends on BR2_USE_WCHAR
+	depends on BR2_USE_MMU # slang
+	depends on !BR2_STATIC_LIBS # unconditionally creates .so
+	select BR2_PACKAGE_SLANG
+	select BR2_PACKAGE_POPT
+	help
+	  This is a comment that explains what ninvaders is. The help text
+	  should be wrapped.
+
+

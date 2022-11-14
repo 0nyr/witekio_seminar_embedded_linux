@@ -1,0 +1,129 @@
+From f758157860397087647f1629fbbd0cde9660a421 Mon Sep 17 00:00:00 2001
+From: Jeremy Vial <jvial@witekio.com>
+Date: Tue, 11 Oct 2022 15:59:00 +0200
+Subject: [PATCH] Avoid variable duplications
+
+---
+ aliens.c    |  9 +++++++++
+ aliens.h    | 16 ++++++++--------
+ nInvaders.c |  3 +++
+ nInvaders.h |  6 +++---
+ ufo.c       |  2 ++
+ ufo.h       |  2 +-
+ 6 files changed, 26 insertions(+), 12 deletions(-)
+
+diff --git a/aliens.c b/aliens.c
+index fa87c5c..762aa98 100644
+--- a/aliens.c
++++ b/aliens.c
+@@ -26,6 +26,15 @@
+ #include "player.h"
+ #include "nInvaders.h"
+ 
++Aliens aliens;
++int shipnum;
++int lowest_ship[ALIENS_MAX_NUMBER_X];
++int alienshotx[ALIENS_MAX_MISSILES];
++int alienshoty[ALIENS_MAX_MISSILES];
++int alienshotnum;
++int alienBlock[ALIENS_MAX_NUMBER_Y][ALIENS_MAX_NUMBER_X];
++int bunker[BUNKERHEIGHT][BUNKERWIDTH + 1];
++
+ /**
+  * initialize aliens attributes
+  */
+diff --git a/aliens.h b/aliens.h
+index 040d93f..b3d45b6 100644
+--- a/aliens.h
++++ b/aliens.h
+@@ -38,22 +38,22 @@ struct Aliens {
+ 	int speed;	  // 0: no movement; 1: one per turn; etc.
+ };
+ 	
+-Aliens aliens;
++extern Aliens aliens;
+ 		
+-int shipnum;	
++extern int shipnum;
+ 
+ #define ALIENS_MAX_NUMBER_X 10
+ #define ALIENS_MAX_NUMBER_Y 5	
+ #define ALIENS_MAX_MISSILES 10	
+ 
+ // todo: move to structure
+-int lowest_ship[ALIENS_MAX_NUMBER_X];
+-int alienshotx[ALIENS_MAX_MISSILES];
+-int alienshoty[ALIENS_MAX_MISSILES];
+-int alienshotnum;
+-int alienBlock[ALIENS_MAX_NUMBER_Y][ALIENS_MAX_NUMBER_X];
++extern int lowest_ship[ALIENS_MAX_NUMBER_X];
++extern int alienshotx[ALIENS_MAX_MISSILES];
++extern int alienshoty[ALIENS_MAX_MISSILES];
++extern int alienshotnum;
++extern int alienBlock[ALIENS_MAX_NUMBER_Y][ALIENS_MAX_NUMBER_X];
+ 
+-int bunker[BUNKERHEIGHT][BUNKERWIDTH + 1];	
++extern int bunker[BUNKERHEIGHT][BUNKERWIDTH + 1];
+ 
+ 
+ void aliensReset();
+diff --git a/nInvaders.c b/nInvaders.c
+index 793139c..4686b4a 100644
+--- a/nInvaders.c
++++ b/nInvaders.c
+@@ -44,6 +44,9 @@ int status; // status handled in timer
+ #define GAME_HIGHSCORE 6
+ 
+ 
++int weite;
++int level;
++int skill_level;
+ 
+ 
+ /**
+diff --git a/nInvaders.h b/nInvaders.h
+index 1161321..1dce3cf 100644
+--- a/nInvaders.h
++++ b/nInvaders.h
+@@ -46,9 +46,9 @@ void drawscore();
+ void doScoring(int alienType);
+ 
+ // todo: let's try to not having to declare these "public"
+-int weite;
+-int level;
+-int skill_level;
++extern int weite;
++extern int level;
++extern int skill_level;
+ 	
+ // included from globals.h
+ extern void doSleep();
+diff --git a/ufo.c b/ufo.c
+index 928872b..0a3852c 100644
+--- a/ufo.c
++++ b/ufo.c
+@@ -28,6 +28,8 @@
+ 
+ static int fShowUfo = 0;
+ 
++Ufo ufo;
++
+ /**
+  * initialize ufo attributes
+  */
+diff --git a/ufo.h b/ufo.h
+index 60dc493..05447da 100644
+--- a/ufo.h
++++ b/ufo.h
+@@ -34,7 +34,7 @@ struct Ufo {
+ 	int posY;	  // vertical position of aliens
+ };
+ 	
+-Ufo ufo;
++extern Ufo ufo;
+ 
+ void ufoReset();
+ int ufoShowUfo();
+-- 
+2.34.1
+
