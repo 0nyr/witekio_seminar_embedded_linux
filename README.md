@@ -1,8 +1,14 @@
 # Witekio Seminary - Linux and embedded systems
 
-> 2022/11/14
+> Date: 2022/11/14-16
 
-> iMX6 Sabre Lite card - Witekio 2450
+> Teacher: Bertrand MANDRIN <bmandrin@witekio.com>
+
+> Card: iMX6 Sabre Lite card - Witekio 2450
+
+The lab session instructions are inside `linux-for-schools-labs.pdf`.
+
+The lesson is inside `linux-for-schools-slides.pdf`.
 
 ## Build Linux from scratch
 
@@ -64,6 +70,7 @@ root@kenzae:/dev# ll | grep mm
 brw-rw----   1 root disk      179,   0 nov.  14 17:29 mmcblk0
 brw-rw----   1 root disk      179,   1 nov.  14 17:29 mmcblk0p1
 ```
+
 6. Overwritte the partition on the SD card and copy the image to it with the following command: `dd if=/path/to/sdcard.img of=/dev/<sd_card_device> bs=1M`. WARNING !!! MAKE 100% SURE THE PARTITION YOU ARE GOING TO OVERWRITTE IS NOT YOUR COMPUTER PARTITION OR ANYTHING ELSE THAN THE SD CARD ! ELSE... RIP
 
 ```shell
@@ -85,15 +92,14 @@ root@kenzae:/dev# mount /dev/mmcblk0p1 /mnt/
 ```shell
 root@kenzae:/dev# cd /mnt/
 bin/               lib32/             opt/               sys/               var/
-boot/              linuxrc            proc/              tmp/             
+boot/              linuxrc            proc/              tmp/           
 dev/               lost+found/        root/              u-boot.nitrogen6q  
-etc/               media/             run/               upgrade.scr      
+etc/               media/             run/               upgrade.scr    
 lib/               mnt/               sbin/              usr/  
 ```
 
 We can see after the SD card partition has been mounted, that the mount point contains linux dirs such as `root/`.
 10. Don't forget to `umount /mnt/` before removing the SD card from the reader.
-
 
 ## Part 3
 
@@ -114,7 +120,7 @@ Documents/ Downloads/
 root@kenzae:/dev# dd if=/dev/mmcblk0 of=/home/onyr/DoMBR.bak count=1 bs=512 
 Documents/ Downloads/ 
 root@kenzae:/dev# dd if=/dev/mmcblk0 of=/home/onyr/Documents/5if/s1/sMBR.bak count=1 bs=512 
-seminaire_sopra_steria/  seminaire_witekio_linux/ shs/                 
+seminaire_sopra_steria/  seminaire_witekio_linux/ shs/               
 root@kenzae:/dev# dd if=/dev/mmcblk0 of=/home/onyr/Documents/5if/s1/seminaire_witekio_linux/MBR.bak count=1 bs=512 
 1+0 records in
 1+0 records out
@@ -164,14 +170,14 @@ root@kenzae:/dev# parted /dev/mmcblk0 mklabel msdos
 Error: Partition(s) 1 on /dev/mmcblk0 have been written, but we have been unable to inform the kernel
 of the change, probably because it/they are in use.  As a result, the old partition(s) will remain in
 use.  You should reboot now before making further changes.
-Ignore/Cancel? ignore                                           
+Ignore/Cancel? ignore                                         
 Information: You may need to update /etc/fstab.
 
 root@kenzae:/dev# parted -a optimal /dev/mmcblk0 mkpart primary 0% 100%
 Error: Partition(s) 1 on /dev/mmcblk0 have been written, but we have been unable to inform the kernel
 of the change, probably because it/they are in use.  As a result, the old partition(s) will remain in
 use.  You should reboot now before making further changes.
-Ignore/Cancel? ignore                                           
+Ignore/Cancel? ignore                                         
 Information: You may need to update /etc/fstab.
 
 root@kenzae:/dev# hexdump -C /dev/mmcblk0p1 -n 512   
@@ -210,6 +216,7 @@ root@kenzae:/dev# hexdump -C /dev/mmcblk0p1 -n 512
 2. run `picocom -b 115200 /dev/ttyUSB0 `. NOTE: There should be only one `/dev/ttyUSB`.
 3. Power in the plugged SabreLite
 4. You should see many logs as the kernel and OS start.
+
 ```shell
 formation@formation-virtual-machine:~$ sudo su
 [sudo] password for formation: 
@@ -642,7 +649,8 @@ root
 ```
 
 ### Plug Ethernet
-0. Unplug power of SabreLite. Restart nfs-kernel-server.service with systemctl. Then plug ethernet-USB to the development PC and replug power of SabreLite card. 
+
+0. Unplug power of SabreLite. Restart nfs-kernel-server.service with systemctl. Then plug ethernet-USB to the development PC and replug power of SabreLite card.
 1. Use Ubuntu Network Manager GUI and put a manual IP Address, like 192.168.0.1 with 255.255.255.0 mask (only 0 zero since it is local network).
 2. Use commands in the doc to stop boot and modify manually environment variables so as to boot from master development PC.
 
@@ -713,7 +721,7 @@ Error: FEC address 4f:7f:66:d6:19:da illegal value
 ## Error: flags type check failure for "ethaddr" <= "22ype: m)
 ## Error inserting "ethaddr" variable, errno=1
 Unknown command '2B:33:44:55:66:66' - try 'help'
-exit                               
+exit                             
 exit not allowed from main input shell.
 => setenv ethaddr 22:33:44:55:66:66
 
@@ -723,7 +731,7 @@ Address in environment is  00:0c:29:fd:b3:b7
 => setenv serverip 192.168.0.2
 => setenv netargs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs ip=dhcp nfsroot=${serverip}:$[nfsroot},v3,tcp'
 => setenv nfsroot '/srv/nfs/rootfs'
-=> setenv netboot 'dhcp ${loadaddr} zImage; tftp ${ftd_addr} imx6q-sabrelite.dtb; bootz ${loadaddr} -INTERRUPT>} imx6q-sabrelite.                                    
+=> setenv netboot 'dhcp ${loadaddr} zImage; tftp ${ftd_addr} imx6q-sabrelite.dtb; bootz ${loadaddr} -INTERRUPT>} imx6q-sabrelite.                                  
 => setenv netboot 'dhcp ${loadaddr} zImage; tftp${fdt_addr} imx6q-sabrelite.dtb; bootz ${loadaddr} - ${fdt_addr}'
 => setenv bootcmd 'run netargs; run netboot'
 => saveenv
@@ -774,7 +782,7 @@ Unknown command 'tftp13000000' - try 'help'
 zimage: Bad magic!
 => setenv ipaddr 192.168.0.2
 => setenv netargs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs ip=${ipaddr} nfsroot=${serverip}:$[nfsroot},v3,tcp'
-=> setenv netboot 'tftp ${loadaddr} zImage; tftp ${fdt_addr} imx6q-sabrelite.dtb; bootz ${loadaddr} - ${fdt_addr}'                 
+=> setenv netboot 'tftp ${loadaddr} zImage; tftp ${fdt_addr} imx6q-sabrelite.dtb; bootz ${loadaddr} - ${fdt_addr}'               
 => saveenv
 Saving Environment to SPIFlash... Erasing SPI flash...Writing to SPI flash...done
 OK
@@ -784,20 +792,24 @@ TFTP from server 192.168.0.1; our IP address is 192.168.0.2
 ```
 
 If the manual setup is working, the config is saved. So don't worry to restart the board if needed. You should see something like that:
+
 ```shell
 Hit any key to stop autoboot:  0 
 FEC Waiting for PHY auto negotiation to complete. done
 Using FEC device
 TFTP from server 192.168.0.1; our IP address is 192.168.0.2
 ```
+
 If you get a kernel panic, it's very probably because of a typo in the commands you entered while manually setting the boot env vars. Use the reboot button and press a key to correct the bad config.
 
 ## Change config with an overlay dir
+
 1. Create an `overlay/` inside the Buildroot directory.
 2. Read the commands and instructions to modify the hostname, password and specify a script.
 3. Don't forget to copy the result (tarball) of the `make` command to the `rootfs` server: `sudo tar xvf output/images/rootfs.tar.bz2 -C /srv/nfs/rootfs/`.
 4. Restart the board with the reset green button.
 5. You should see several IP addresses.
+
 ```shell
 Welcome to Buildroot
 buildroot_nounours login: root
@@ -862,6 +874,7 @@ sysctl   syslogd
 ```
 
 Run the commands to cross-compile linux. Then `cp` inside `arch/arm/boot` to copy zImage inside `/srv/nfs/rootfs/`. Also `cp` `dts/imx6q-sabrelite.dtb` and `zImage` into `/srv/tftp/`.
+
 ```shell
 formation@formation-virtual-machine:~/Downloads/linux/arch/arm/boot$ sudo cp zImage /srv/tftp/
 formation@formation-virtual-machine:~/Downloads/linux/arch/arm/boot$ sudo cp dts/
@@ -873,35 +886,43 @@ Display all 156 possibilities? (y or n)
 formation@formation-virtual-machine:~/Downloads/linux/arch/arm/boot$ sudo cp dts/imx6q-sabrelite.dtb /srv/tftp/
 ```
 
-
 ## Part 8
 
 1. Find logo
+
 ```shell
 formation@formation-virtual-machine:~/Downloads/linux$ find -name logo
 ./drivers/video/logo
 ./include/config/logo
 ```
+
 2. Find MVNETA maintainer.
+
 ```shell
 formation@formation-virtual-machine:~/Downloads/linux/drivers$ find -name *mvneta*
 ./net/ethernet/marvell/mvneta.c
 ./net/ethernet/marvell/mvneta_bm.c
 ./net/ethernet/marvell/mvneta_bm.h
 ```
+
 Inside the file, we get the maintainers in comments:
+
 ```shell
  * Rami Rosen <rosenr@marvell.com>
  * Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 ```
+
 3. Got to `https://elexir.bootlin.com/linux`. Get the downloaded linux version from the Makefile.
+
 ```shell
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 5
 PATCHLEVEL = 10
 SUBLEVEL = 104
 ```
+
 Here we have linux v5.10.104 then find it on the website. Search the function `platform_device_register`. You get all the different files containing the function. We found it inside `drivers/base/platform.c`.
+
 ```shell
 formation@formation-virtual-machine:~/Downloads/linux/drivers$ git grep platform_device_register
 [...]
@@ -916,41 +937,13 @@ base/platform.c:EXPORT_SYMBOL_GPL(platform_device_register_full);
 [...]
 ```
 
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## miscellaneous
 
 ```shell
 root@kenzae:/dev# parted /dev/mmcblk0p1 mklabel msdos
 Warning: The existing disk label on /dev/mmcblk0p1 will be destroyed and all data on this disk will
 be lost. Do you want to continue?
-Yes/No? yes                                                             
+Yes/No? yes                                                           
 Error: Partition(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64 on /dev/mmcblk0p1 have been
@@ -969,13 +962,13 @@ Error: Partition(s) 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1
 written, but we have been unable to inform the kernel of the change, probably because it/they are in
 use.  As a result, the old partition(s) will remain in use.  You should reboot now before making
 further changes.
-Ignore/Cancel? Ignore                                                   
+Ignore/Cancel? Ignore                                                 
 Information: You may need to update /etc/fstab.
 
 root@kenzae:/dev# sudo dd if=/home/onyr/Documents/5if/s1/s
-seminaire_sopra_steria/  seminaire_witekio_linux/ shs/                   
+seminaire_sopra_steria/  seminaire_witekio_linux/ shs/                 
 root@kenzae:/dev# sudo dd if=/home/onyr/Documents/5if/s1/seminaire_witekio_linux/
-linux-for-schools-labs.pdf  sdcard.img                
+linux-for-schools-labs.pdf  sdcard.img              
 root@kenzae:/dev# dd if=/home/onyr/Documents/5if/s1/seminaire_witekio_linux/sdcard.img of=/dev/mmcblk0 bs=1M
 60+1 records in
 60+1 records out
