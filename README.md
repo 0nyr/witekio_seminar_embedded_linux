@@ -64,8 +64,7 @@ root@kenzae:/dev# ll | grep mm
 brw-rw----   1 root disk      179,   0 nov.  14 17:29 mmcblk0
 brw-rw----   1 root disk      179,   1 nov.  14 17:29 mmcblk0p1
 ```
-
-6. Overwritte the partition on the SD card and copy the image to it with the following command: `dd if=/path/to/sdcard.img of=/dev/<sd_card_device> bs=1M`.
+6. Overwritte the partition on the SD card and copy the image to it with the following command: `dd if=/path/to/sdcard.img of=/dev/<sd_card_device> bs=1M`. WARNING !!! MAKE 100% SURE THE PARTITION YOU ARE GOING TO OVERWRITTE IS NOT YOUR COMPUTER PARTITION OR ANYTHING ELSE THAN THE SD CARD ! ELSE... RIP
 
 ```shell
 root@kenzae:/dev# dd if=/home/onyr/Documents/5if/s1/seminaire_witekio_linux/sdcard.img of=/dev/mmcblk0 bs=1M
